@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Logout from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Avatar from '@mui/material/Avatar';
@@ -11,9 +12,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function UserMenu({ username }: { username: string }) {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -50,6 +54,33 @@ export default function UserMenu({ username }: { username: string }) {
       children: children,
     };
   }
+
+  // handle logout
+  const onLogout = async () => {
+    handleClose();
+    toast.dismiss();
+    toast.loading('Logging out...');
+    try {
+      const response = await axios.get('/api/users/logout');
+      if (response.status === 200) {
+        toast.dismiss();
+        toast.success('Logged out!');
+        setTimeout(() => {
+          router.refresh();
+        }, 3000);
+      } else {
+        toast.error('An unexpected error occurred. Please try again.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message =
+          error.response?.data.error || 'An error occured. Please try again.';
+        toast.error(message);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
 
   // handle render depending on the presence of a session in the cookie
   const [isSession, setIsSession] = useState(false);
@@ -137,7 +168,7 @@ export default function UserMenu({ username }: { username: string }) {
           <Link href={`/blog/user/`}>My account</Link>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={onLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
