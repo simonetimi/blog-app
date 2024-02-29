@@ -67,7 +67,7 @@ export default function UserMenu({ username }: { username: string }) {
         toast.success('Logged out!');
         setTimeout(() => {
           router.refresh();
-        }, 3000);
+        }, 1500);
       } else {
         toast.error('An unexpected error occurred. Please try again.');
       }
