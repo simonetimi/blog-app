@@ -9,11 +9,12 @@ export async function middleware(request: NextRequest) {
 
   // check if user is logged in or not (has token) and redirect to appropriate paths
   const publicPaths = [
-    '/login',
-    '/signup',
-    '/verify-email',
-    '/password-reset',
-    '/request-password-reset',
+    '/',
+    '/auth/login',
+    '/auth/signup',
+    '/auth/verify-email',
+    '/auth/password-reset',
+    '/auth/request-password-reset',
   ];
   const isPublicPath = publicPaths.includes(path);
 
