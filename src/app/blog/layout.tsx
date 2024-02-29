@@ -1,5 +1,6 @@
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 import UserMenu from '../components/ui/UserMenu';
 
@@ -23,7 +24,9 @@ export default async function RootLayout({
   return (
     <>
       <header className="flex h-1/6 items-center p-6 pl-10 pr-10">
-        <h1>Inkwell Insights - Blog</h1>
+        <Link href="/blog">
+          <h1 className="text-xl">Inkwell Insights - Blog</h1>
+        </Link>
         <UserMenu username={username} />
       </header>
       <main className="flex h-5/6 flex-col items-center justify-center">
