@@ -20,7 +20,7 @@ export default function VerifyEmailPage() {
       const successToast = toast.success('Email verified!');
       setTimeout(() => {
         toast.dismiss(successToast);
-        router.push('/login');
+        router.push('/auth/login');
       }, 5000);
     } catch (error) {
       toast.dismiss(loadingToast);
@@ -60,7 +60,7 @@ export default function VerifyEmailPage() {
           <p>You&apos;re being redirected...</p>
           <p>
             Click&nbsp;
-            <Link className="underline" href="/login">
+            <Link className="underline" href="/auth/login">
               here
             </Link>
             &nbsp;if you&apos;re not being redirected automatically.

@@ -34,7 +34,7 @@ export default function SignupPage() {
         const successToast = toast.success('Signed up! Check your email');
         setTimeout(() => {
           toast.dismiss(successToast);
-          router.push('/login');
+          router.push('/auth/login');
         }, 1000);
       } else {
         toast.error('An unexpected error occurred. Please try again.');
@@ -153,7 +153,10 @@ export default function SignupPage() {
           Signup
         </button>
       </form>
-      <Link className="mt-5 rounded-md p-1 text-xs underline" href="/login">
+      <Link
+        className="mt-5 rounded-md p-1 text-xs underline"
+        href="/auth/login"
+      >
         Already have an account? Go to login
       </Link>
     </main>

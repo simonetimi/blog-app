@@ -46,7 +46,7 @@ export default function PasswordResetPage() {
       const successToast = toast.success('Password changed!');
       setTimeout(() => {
         toast.dismiss(successToast);
-        router.push('/login');
+        router.push('/auth/login');
       }, 5000);
       setButtonDisabled(false);
     } catch (error) {
@@ -93,7 +93,7 @@ export default function PasswordResetPage() {
           <p>You&apos;re being redirected...</p>
           <p>
             Click&nbsp;
-            <Link className="underline" href="/login">
+            <Link className="underline" href="/auth/login">
               here
             </Link>
             &nbsp;if you&apos;re not being redirected automatically.

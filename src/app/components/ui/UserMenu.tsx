@@ -56,7 +56,7 @@ export default function UserMenu({ username }: { username: string }) {
   if (!isSession) {
     return (
       <Link
-        href="/login"
+        href="/auth/login"
         className="w-30 flex h-9 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
       />
     );
@@ -73,16 +73,17 @@ export default function UserMenu({ username }: { username: string }) {
             src=""
           />
         </DropdownTrigger>
-        <DropdownMenu aria-label="Profile Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
-            <p className="font-semibold">Signed in as</p>
-            <p className="font-semibold">{username}</p>
-          </DropdownItem>
+        <DropdownMenu aria-label="Profile Actions" className="text-slate-900">
+          <DropdownSection aria-label="Profile preview" showDivider>
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold">Signed in as {username}</p>
+            </DropdownItem>
+          </DropdownSection>
           <DropdownSection aria-label="Manage Account" showDivider>
             <DropdownItem key="myAccount" href={`/blog/user/${username}`}>
               My account
             </DropdownItem>
-            <DropdownItem key="profile" href="ref=/blog/user/">
+            <DropdownItem key="profile" href="/blog/user/">
               Profile
             </DropdownItem>
           </DropdownSection>

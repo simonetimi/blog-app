@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import InputField from '../../components/ui/Input';
@@ -28,7 +29,7 @@ export default function LoginPage() {
         const successToast = toast.success(response.data.message);
         setTimeout(() => {
           toast.dismiss(successToast);
-          router.push(`/login`);
+          router.push(`/auth/login`);
         }, 1500);
       } else {
         toast.error('An unexpected error occurred. Please try again.');
@@ -81,6 +82,12 @@ export default function LoginPage() {
           Send
         </button>
       </form>
+      <Link
+        className="mt-5 rounded-md p-1 text-xs underline"
+        href="/auth/login"
+      >
+        Go back to login
+      </Link>
     </main>
   );
 }

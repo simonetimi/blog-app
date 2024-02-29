@@ -3,13 +3,10 @@
 import { useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 import InputField from '../../components/ui/Input';
 
 export default function Profile() {
-  const router = useRouter();
-
   // get and save user id
   const [user, setUser] = useState({
     username: '',
@@ -189,7 +186,7 @@ export default function Profile() {
   };
 
   return (
-    <main className="flex h-5/6 flex-col items-center justify-center gap-3">
+    <>
       <Toaster />
       <h1 className="mb-10 p-4 text-2xl">Your User Profile</h1>
       <h2>Edit user data</h2>
@@ -250,7 +247,7 @@ export default function Profile() {
         <label className="flex flex-col" htmlFor="bio">
           Bio:
           <textarea
-            className="resize-none"
+            className="h-30 w-52 resize-none rounded-md p-2 text-sm text-gray-800 focus:outline-none"
             id="bio"
             name="bio"
             minLength={1}
@@ -306,6 +303,6 @@ export default function Profile() {
           Edit
         </button>
       </form>
-    </main>
+    </>
   );
 }

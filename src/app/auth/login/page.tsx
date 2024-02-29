@@ -108,12 +108,12 @@ export default function LoginPage() {
         </button>
       </form>
       <section className="mt-8 flex flex-col items-center gap-2">
-        <Link className="rounded-md p-1 text-xs underline" href="/signup">
+        <Link className="rounded-md p-1 text-xs underline" href="/auth/signup">
           New user? Sign up here
         </Link>
         <Link
           className="rounded-md p-1 text-xs underline"
-          href="/request-password-reset"
+          href="/auth/request-password-reset"
         >
           Reset your password
         </Link>
