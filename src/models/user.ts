@@ -39,6 +39,8 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, Ref: 'Post' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, Ref: 'Comment' }],
   isBanned: {
     type: Boolean,
     default: false,
