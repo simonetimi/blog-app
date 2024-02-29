@@ -159,7 +159,9 @@ export default function UserMenu({ username }: { username: string }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> <Link href={`/blog/user/${username}`}>Profile</Link>
+          <Link href={`/blog/user/${username}`} className="flex items-center">
+            <Avatar /> Profile
+          </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
