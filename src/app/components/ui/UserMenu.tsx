@@ -2,62 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import Logout from '@mui/icons-material/Logout';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
+import {
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+} from '@nextui-org/react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function UserMenu({ username }: { username: string }) {
   const router = useRouter();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  // handle avatar color
-  function stringToColor(string: string) {
-    let hash = 0;
-    let i;
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    let color = '#';
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    return color;
-  }
-
-  function stringAvatar(name: string) {
-    const parts = name.split(' ');
-    const children = `${parts[0][0]}${parts.length > 1 && parts[1] ? parts[1][0] : ''}`;
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        width: 40,
-        height: 40,
-      },
-      children: children,
-    };
-  }
 
   // handle logout
   const onLogout = async () => {
-    handleClose();
     toast.dismiss();
     toast.loading('Logging out...');
     try {
@@ -92,8 +53,6 @@ export default function UserMenu({ username }: { username: string }) {
     }
   }, [username]);
 
-  const usernameInitial = username.charAt(0).toUpperCase();
-
   if (!isSession) {
     return (
       <Link
@@ -105,78 +64,35 @@ export default function UserMenu({ username }: { username: string }) {
 
   return (
     <nav className="ml-auto">
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar {...stringAvatar(`${'username'}`)}>
-              {usernameInitial}
-            </Avatar>
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&::before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: 'background.paper',
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-              },
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        <MenuItem onClick={handleClose}>
-          <Link href={`/blog/user/${username}`} className="flex items-center">
-            <Avatar /> Profile
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <ManageAccountsIcon fontSize="small" />
-          </ListItemIcon>
-          <Link href={`/blog/user/`}>My account</Link>
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={onLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+      <Dropdown placement="bottom-end">
+        <DropdownTrigger>
+          <Avatar
+            showFallback
+            className="hover:cursor-pointer"
+            name={username}
+            src=""
+          />
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Profile Actions" variant="flat">
+          <DropdownItem key="profile" className="h-14 gap-2">
+            <p className="font-semibold">Signed in as</p>
+            <p className="font-semibold">{username}</p>
+          </DropdownItem>
+          <DropdownSection aria-label="Manage Account" showDivider>
+            <DropdownItem key="myAccount" href={`/blog/user/${username}`}>
+              My account
+            </DropdownItem>
+            <DropdownItem key="profile" href="ref=/blog/user/">
+              Profile
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownSection aria-label="Danger Zone">
+            <DropdownItem key="logout" color="danger" onClick={onLogout}>
+              Log Out
+            </DropdownItem>
+          </DropdownSection>
+        </DropdownMenu>
+      </Dropdown>
     </nav>
   );
 }
