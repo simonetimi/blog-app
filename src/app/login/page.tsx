@@ -29,7 +29,7 @@ export default function LoginPage() {
         const successToast = toast.success('Login successful!');
         setTimeout(() => {
           toast.dismiss(successToast);
-          router.push('/');
+          router.refresh();
         }, 1000);
       } else {
         toast.error('An unexpected error occurred. Please try again.');
