@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -23,6 +22,36 @@ export default function UserMenu({ username }: { username: string }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // handle avatar color
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = '#';
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  }
+
+  function stringAvatar(name: string) {
+    const parts = name.split(' ');
+    const children = `${parts[0][0]}${parts.length > 1 && parts[1] ? parts[1][0] : ''}`;
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 40,
+        height: 40,
+      },
+      children: children,
+    };
+  }
+
+  // handle render depending on the presence of a session in the cookie
   const [isSession, setIsSession] = useState(false);
   useEffect(() => {
     if (username && username !== '') {
@@ -44,7 +73,7 @@ export default function UserMenu({ username }: { username: string }) {
   }
 
   return (
-    <>
+    <nav className="ml-auto">
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -55,7 +84,9 @@ export default function UserMenu({ username }: { username: string }) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>{usernameInitial}</Avatar>
+            <Avatar {...stringAvatar(`${'username'}`)}>
+              {usernameInitial}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -97,24 +128,15 @@ export default function UserMenu({ username }: { username: string }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+          <Avatar /> <Link href={`/blog/user/${username}`}>Profile</Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+          <ListItemIcon>
+            <ManageAccountsIcon fontSize="small" />
+          </ListItemIcon>
+          <Link href={`/blog/user/`}>My account</Link>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -122,6 +144,6 @@ export default function UserMenu({ username }: { username: string }) {
           Logout
         </MenuItem>
       </Menu>
-    </>
+    </nav>
   );
 }

@@ -5,7 +5,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import InputField from '../components/ui/Input';
+import InputField from '../../components/ui/Input';
 
 export default function Profile() {
   const router = useRouter();

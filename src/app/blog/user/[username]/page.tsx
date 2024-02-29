@@ -44,9 +44,9 @@ export default function UserProfile({ params }: Params) {
   }
 
   return (
-    <main className=" flex h-screen flex-col items-center justify-center">
+    <>
       <h1 className="mb-10 p-4 text-2xl">{params.username}&apos;s profile</h1>
       <p>{user.bio ? user.bio : 'Loading...'}</p>
-    </main>
+    </>
   );
 }
