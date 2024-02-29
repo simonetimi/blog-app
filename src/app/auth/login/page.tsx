@@ -23,7 +23,7 @@ export default function LoginPage() {
     setButtonDisabled(true);
     const loadingToast = toast.loading('Logging in...');
     try {
-      const response = await axios.post('api/users/login', user);
+      const response = await axios.post('/api/users/login', user);
       toast.dismiss(loadingToast);
       if (response.status === 200) {
         const successToast = toast.success('Login successful!');

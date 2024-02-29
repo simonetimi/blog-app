@@ -32,35 +32,6 @@ export default function Profile() {
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  // logout function
-  const onLogout = async () => {
-    setButtonDisabled(true);
-    toast.dismiss();
-    toast.loading('Logging out...');
-    try {
-      const response = await axios.get('api/users/logout');
-      if (response.status === 200) {
-        toast.dismiss();
-        toast.success('Logged out!');
-        setTimeout(() => {
-          router.push('/login');
-        }, 3000);
-      } else {
-        setButtonDisabled(false);
-        toast.error('An unexpected error occurred. Please try again.');
-      }
-    } catch (error) {
-      setButtonDisabled(false);
-      if (axios.isAxiosError(error)) {
-        const message =
-          error.response?.data.error || 'An error occured. Please try again.';
-        toast.error(message);
-      } else if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    }
-  };
-
   // functions to submit the forms
   const onUsernameChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,7 +39,7 @@ export default function Profile() {
     toast.dismiss();
     toast.loading('Updating username...');
     try {
-      const response = await axios.put('api/users/update', {
+      const response = await axios.put('/api/users/update', {
         username: user.username,
       });
       if (response.status === 200) {
@@ -95,7 +66,7 @@ export default function Profile() {
     toast.dismiss();
     toast.loading('Updating email...');
     try {
-      const response = await axios.put('api/users/update', {
+      const response = await axios.put('/api/users/update', {
         email: user.email,
       });
       if (response.status === 200) {
@@ -122,7 +93,7 @@ export default function Profile() {
     toast.dismiss();
     toast.loading('Logging bio...');
     try {
-      const response = await axios.put('api/users/update', {
+      const response = await axios.put('/api/users/update', {
         bio: user.bio,
       });
       if (response.status === 200) {
@@ -153,7 +124,7 @@ export default function Profile() {
       return toast.error("Passwords don't match");
     }
     try {
-      const response = await axios.put('api/users/update', {
+      const response = await axios.put('/api/users/update', {
         password: password.newPassword,
       });
       if (response.status === 200) {
@@ -335,15 +306,6 @@ export default function Profile() {
           Edit
         </button>
       </form>
-      <hr />
-      <button
-        onClick={onLogout}
-        className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-      >
-        Logout
-      </button>
     </main>
   );
 }
-
-// new email: send new verification

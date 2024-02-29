@@ -20,7 +20,7 @@ export default function LoginPage() {
     setButtonDisabled(true);
     const loadingToast = toast.loading('Requesting...');
     try {
-      const response = await axios.post('api/users/request-password-reset', {
+      const response = await axios.post('/api/users/request-password-reset', {
         email: email,
       });
       toast.dismiss(loadingToast);

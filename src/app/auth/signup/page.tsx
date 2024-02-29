@@ -28,7 +28,7 @@ export default function SignupPage() {
     setButtonDisabled(true);
     const loadingToast = toast.loading('Signing up...');
     try {
-      const response = await axios.post('api/users/signup', user);
+      const response = await axios.post('/api/users/signup', user);
       toast.dismiss(loadingToast);
       if (response.status === 200) {
         const successToast = toast.success('Signed up! Check your email');

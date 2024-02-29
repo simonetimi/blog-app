@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
 
   // anonymous (not logged) user should be redirected to login if trying to access app resources
   if (!isPublicPath && !session) {
-    return NextResponse.redirect(new URL('/login', request.nextUrl));
+    return NextResponse.redirect(new URL('/auth/login', request.nextUrl));
   }
 
   if (session) {
@@ -40,9 +40,7 @@ export async function middleware(request: NextRequest) {
 
     // if logged user is accessing a public resource, redirect to the main app resource
     if (isPublicPath) {
-      const response = NextResponse.redirect(
-        new URL('/profile', request.nextUrl),
-      );
+      const response = NextResponse.redirect(new URL('/blog', request.nextUrl));
       return response;
     }
 
