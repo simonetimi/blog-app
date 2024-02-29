@@ -29,7 +29,7 @@ export default async function RootLayout({
         </Link>
         <UserMenu username={username} />
       </header>
-      <main className="mb-10 flex h-5/6 flex-col items-center justify-center gap-3 p-10">
+      <main className="mb-10 flex max-h-fit flex-col items-center justify-center gap-3 p-10">
         {children}
       </main>
     </>

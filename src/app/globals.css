@@ -14,7 +14,8 @@ html {
   height: 0;
 }
 
-body {
+body,
+html {
   margin: 0;
   padding: 0;
   color: rgb(var(--foreground-rgb));
@@ -24,6 +25,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  min-height: 100vh;
 }
 
 @layer utilities {
