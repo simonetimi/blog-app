@@ -74,14 +74,18 @@ export default function UserMenu({ username }: { username: string }) {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" className="text-slate-900">
-          <DropdownItem key="profile">
+          <DropdownItem key="profile" textValue="Signed in">
             <p className="font-semibold">Signed in as {username}</p>
           </DropdownItem>
           <DropdownSection aria-label="Manage Account" showDivider>
-            <DropdownItem key="myAccount" href={`/blog/user/${username}`}>
+            <DropdownItem
+              key="myAccount"
+              href={`/blog/user/${username}`}
+              as={Link}
+            >
               My account
             </DropdownItem>
-            <DropdownItem key="profile" href="/blog/user/">
+            <DropdownItem key="profile" href="/blog/user/" as={Link}>
               Profile
             </DropdownItem>
           </DropdownSection>
