@@ -44,6 +44,7 @@ export default function UserMenu({ username }: { username: string }) {
   };
 
   // handle render depending on the presence of a session in the cookie
+  const [isLoading, setIsLoading] = useState(true);
   const [isSession, setIsSession] = useState(false);
   useEffect(() => {
     if (username && username !== '') {
@@ -51,20 +52,27 @@ export default function UserMenu({ username }: { username: string }) {
     } else {
       setIsSession(false);
     }
+    setIsLoading(false);
   }, [username]);
+
+  if (isLoading) {
+    return <div className="w-30 h-10" />;
+  }
 
   if (!isSession) {
     return (
       <Link
         href="/auth/login"
-        className="w-30 flex h-9 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-      />
+        className="w-30 ml-auto flex h-9 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+      >
+        Login
+      </Link>
     );
   }
 
   return (
     <nav className="ml-auto">
-      <Dropdown placement="bottom-end">
+      <Dropdown>
         <DropdownTrigger>
           <Avatar
             showFallback
