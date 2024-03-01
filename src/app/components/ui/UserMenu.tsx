@@ -83,25 +83,34 @@ export default function UserMenu({ username }: { username: string }) {
 
   return (
     <nav className="ml-auto">
-      <Dropdown>
+      <Dropdown placement="bottom-end">
         <DropdownTrigger>
           <Avatar
+            as="button"
             showFallback
-            className="hover:cursor-pointer"
+            className="transition-transform"
             name={username}
             src=""
           />
         </DropdownTrigger>
-        <DropdownMenu aria-label="Profile Actions" className="text-slate-900">
-          <DropdownItem key="profile" textValue="Signed in">
+        <DropdownMenu
+          aria-label="Profile Actions"
+          className="text-slate-900"
+          disabledKeys={['preview']}
+        >
+          <DropdownItem
+            key="preview"
+            textValue="Signed in"
+            className="opacity-100"
+          >
             <p className="font-semibold">Signed in as {username}</p>
           </DropdownItem>
           <DropdownSection aria-label="Manage Account" showDivider>
-            <DropdownItem key="myAccount" onClick={handleMyAccountClick}>
-              My account
-            </DropdownItem>
-            <DropdownItem key="profile" onClick={handleProfileClick}>
+            <DropdownItem key="profile" onClick={handleMyAccountClick}>
               Profile
+            </DropdownItem>
+            <DropdownItem key="account" onClick={handleProfileClick}>
+              My Account
             </DropdownItem>
           </DropdownSection>
           <DropdownSection aria-label="Danger Zone">
