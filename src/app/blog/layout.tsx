@@ -15,10 +15,16 @@ export default async function RootLayout({
   const session = cookieStore.get('session')?.value || '';
   const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
   let username = '';
+  let role = '';
   try {
     const { payload } = await jwtVerify(session, secret);
-    if (typeof payload !== 'string' && 'username' in payload) {
+    if (
+      typeof payload !== 'string' &&
+      'username' in payload &&
+      'role' in payload
+    ) {
       username = payload.username as string;
+      role = payload.role as string;
     }
   } catch (error) {}
 
@@ -29,7 +35,7 @@ export default async function RootLayout({
           <NewspaperIcon className="h-10 w-10 items-center" />
           <h1 className="font-recursive text-3xl">Inkwell Insights</h1>
         </Link>
-        <UserMenu username={username} />
+        <UserMenu username={username} role={role} />
       </header>
       <main className="mb-10 flex max-h-fit flex-col items-center justify-center gap-3 p-10">
         {children}

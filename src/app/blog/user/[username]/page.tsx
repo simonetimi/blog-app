@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import NotFound from '@/app/components/NotFound';
+import NotFound from '@/app/components/ui/NotFound';
 
 interface Params {
   params: {

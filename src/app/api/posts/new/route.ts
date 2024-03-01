@@ -34,8 +34,10 @@ export async function POST(request: NextRequest) {
 
     // validate and sanitize user data
     const { title, content, isDraft } = await inputSchema.validate(reqBody);
+
     // get user data from cookie
     const { id } = payload;
+
     // get date
     const now = new Date();
 

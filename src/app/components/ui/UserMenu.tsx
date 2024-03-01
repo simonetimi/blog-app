@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import {
   ArrowLeftStartOnRectangleIcon,
   CogIcon,
+  PencilSquareIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -19,7 +20,13 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function UserMenu({ username }: { username: string }) {
+export default function UserMenu({
+  username,
+  role,
+}: {
+  username: string;
+  role: string;
+}) {
   const router = useRouter();
 
   // handle logout
@@ -86,6 +93,11 @@ export default function UserMenu({ username }: { username: string }) {
     router.push('/blog/user/', { scroll: false });
   };
 
+  // handler for navigating to "New Post"
+  const handleNewPostClick = () => {
+    router.push('/blog/post/new', { scroll: false });
+  };
+
   return (
     <nav className="ml-auto">
       <Dropdown placement="bottom-end">
@@ -110,6 +122,18 @@ export default function UserMenu({ username }: { username: string }) {
           >
             <p className="font-semibold">Signed in as {username}</p>
           </DropdownItem>
+          {role === 'admin' ? (
+            <DropdownSection aria-label="Posts" showDivider>
+              <DropdownItem key="new" onClick={handleNewPostClick}>
+                <div className="flex items-center">
+                  <PencilSquareIcon className="mr-1 h-6 w-6" />
+                  <p>New Post</p>
+                </div>
+              </DropdownItem>
+            </DropdownSection>
+          ) : (
+            <></>
+          )}
           <DropdownSection aria-label="Manage Account" showDivider>
             <DropdownItem key="profile" onClick={handleMyAccountClick}>
               <div className="flex items-center">
