@@ -7,6 +7,7 @@ interface InputField {
   placeholder: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required: boolean;
+  width?: string;
 }
 
 export default function InputField({
@@ -18,10 +19,11 @@ export default function InputField({
   placeholder,
   onChange,
   required,
+  width = 'w-52',
 }: InputField) {
   return (
     <input
-      className="h-8 w-52 rounded-md p-2 text-sm text-gray-800 focus:outline-none"
+      className={`h-8 ${width} rounded-md border border-white bg-black p-2 text-sm focus:outline-none`}
       id={id}
       type={type}
       min={min}

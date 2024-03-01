@@ -7,7 +7,7 @@ export interface PostInt extends Document {
   title: string;
   content: string;
   _author: UserInt['_id'];
-  isPublished: boolean;
+  isDraft: boolean;
   publishDate: Date;
   comments: [''];
 }
@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema({
   },
   content: { type: String, required: [true, 'Content is required'] },
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  isPublished: { type: Boolean },
+  isDraft: { type: Boolean },
   publishDate: { type: Date },
   comments: [{ type: mongoose.Schema.Types.ObjectId, Ref: 'Comment' }],
 });

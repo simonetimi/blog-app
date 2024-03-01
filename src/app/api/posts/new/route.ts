@@ -1,6 +1,6 @@
 import { jwtVerify } from 'jose';
 import { NextRequest, NextResponse } from 'next/server';
-import { object, string } from 'yup';
+import { boolean, object, string } from 'yup';
 
 import { connect } from '@/db/db-config';
 import Post from '@/models/post';
@@ -9,7 +9,8 @@ import User from '@/models/user';
 // edit validation schema
 const inputSchema = object({
   title: string().trim().min(2).max(60).required(),
-  content: string().min(4).max(5000).required(),
+  content: string().trim().min(4).max(5000).required(),
+  isDraft: boolean(),
 });
 
 export async function POST(request: NextRequest) {
@@ -32,9 +33,7 @@ export async function POST(request: NextRequest) {
     const reqBody = await request.json();
 
     // validate and sanitize user data
-    const { title, content } = await inputSchema.validate(reqBody);
-    // get options from user input
-    const { isPublished } = reqBody;
+    const { title, content, isDraft } = await inputSchema.validate(reqBody);
     // get user data from cookie
     const { id } = payload;
     // get date
@@ -44,7 +43,7 @@ export async function POST(request: NextRequest) {
       title: title,
       content: content,
       _author: id,
-      isPublished: isPublished,
+      isDraft: isDraft,
       publishDate: now,
     });
 
@@ -57,6 +56,7 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json({
       message: 'Post has been added!',
       success: true,
+      postId: post._id,
     });
 
     return response;

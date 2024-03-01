@@ -262,7 +262,7 @@ export default function Profile() {
             <label className="flex flex-col" htmlFor="bio">
               Bio:
               <textarea
-                className="h-40 w-52 resize-none rounded-md p-2 text-sm text-gray-800 focus:outline-none"
+                className="h-40 w-52 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
                 id="bio"
                 name="bio"
                 minLength={1}
