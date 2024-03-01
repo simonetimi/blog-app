@@ -39,7 +39,10 @@ export default function UserProfile({ params }: Params) {
 
   if (error) {
     return (
-      <NotFound errorMessage={`User ${params.username} does not exist!`} />
+      <NotFound
+        redirectUrl={'/blog/'}
+        errorMessage={`User ${params.username} does not exist!`}
+      />
     );
   }
 
