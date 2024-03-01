@@ -1,3 +1,4 @@
+import { NewspaperIcon } from '@heroicons/react/24/outline';
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -24,8 +25,9 @@ export default async function RootLayout({
   return (
     <>
       <header className="sticky top-0 z-10 flex items-center border-b-1 border-gray-800 bg-gradient-to-b from-gray-800/70 to-transparent p-6 px-10 backdrop-blur-md">
-        <Link href="/blog">
-          <h1 className="text-xl">Inkwell Insights - Blog</h1>
+        <Link href="/blog" className="flex gap-2">
+          <NewspaperIcon className="h-10 w-10 items-center" />
+          <h1 className="font-recursive text-3xl">Inkwell Insights</h1>
         </Link>
         <UserMenu username={username} />
       </header>
