@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
 
     // retrieve the post populating the author with the username and the comments with the required fields, populating their authors too with usernames
     const post = await Post.findOne({ _id: postId })
+      .select('content title publishDate isDraft')
       .populate({ path: 'author', select: 'username' })
       .populate({
         path: 'comments',
