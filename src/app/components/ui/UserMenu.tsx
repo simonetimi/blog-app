@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
+  ArrowLeftStartOnRectangleIcon,
+  CogIcon,
+  UserCircleIcon,
+} from '@heroicons/react/24/outline';
+import {
   Avatar,
   Dropdown,
   DropdownItem,
@@ -107,15 +112,24 @@ export default function UserMenu({ username }: { username: string }) {
           </DropdownItem>
           <DropdownSection aria-label="Manage Account" showDivider>
             <DropdownItem key="profile" onClick={handleMyAccountClick}>
-              Profile
+              <div className="flex items-center">
+                <UserCircleIcon className="mr-1 h-6 w-6" />
+                <p>Profile</p>
+              </div>
             </DropdownItem>
             <DropdownItem key="account" onClick={handleProfileClick}>
-              My Account
+              <div className="flex items-center">
+                <CogIcon className="mr-1 h-6 w-6" />
+                <p>My Account</p>
+              </div>
             </DropdownItem>
           </DropdownSection>
           <DropdownSection aria-label="Danger Zone">
             <DropdownItem key="logout" color="danger" onClick={onLogout}>
-              Log Out
+              <div className="flex items-center">
+                <ArrowLeftStartOnRectangleIcon className="mr-1 h-6 w-6" />
+                <p>Log Out</p>
+              </div>
             </DropdownItem>
           </DropdownSection>
         </DropdownMenu>
