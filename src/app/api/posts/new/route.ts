@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const post = new Post({
       title: title,
       content: content,
-      _author: id,
+      author: id,
       isDraft: isDraft,
       publishDate: now,
     });

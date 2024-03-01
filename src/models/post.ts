@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
     unique: true,
   },
   content: { type: String, required: [true, 'Content is required'] },
-  _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   isDraft: { type: Boolean },
   publishDate: { type: Date },
   comments: [{ type: mongoose.Schema.Types.ObjectId, Ref: 'Comment' }],
