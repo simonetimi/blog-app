@@ -70,6 +70,17 @@ export default function UserMenu({ username }: { username: string }) {
     );
   }
 
+  // use router.push() with scroll: false to avoid a browser warning due to the sticky behavior of the header
+  // handler for navigating to "My account"
+  const handleMyAccountClick = () => {
+    router.push(`/blog/user/${username}`, { scroll: false });
+  };
+
+  // handler for navigating to "Profile"
+  const handleProfileClick = () => {
+    router.push('/blog/user/', { scroll: false });
+  };
+
   return (
     <nav className="ml-auto">
       <Dropdown>
@@ -86,14 +97,10 @@ export default function UserMenu({ username }: { username: string }) {
             <p className="font-semibold">Signed in as {username}</p>
           </DropdownItem>
           <DropdownSection aria-label="Manage Account" showDivider>
-            <DropdownItem
-              key="myAccount"
-              href={`/blog/user/${username}`}
-              as={Link}
-            >
+            <DropdownItem key="myAccount" onClick={handleMyAccountClick}>
               My account
             </DropdownItem>
-            <DropdownItem key="profile" href="/blog/user/" as={Link}>
+            <DropdownItem key="profile" onClick={handleProfileClick}>
               Profile
             </DropdownItem>
           </DropdownSection>
