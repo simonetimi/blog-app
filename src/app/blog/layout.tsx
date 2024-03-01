@@ -23,7 +23,7 @@ export default async function RootLayout({
 
   return (
     <>
-      <header className="flex h-1/6 items-center p-6 pl-10 pr-10">
+      <header className="sticky top-0 z-10 flex items-center border-b-1 border-gray-800 bg-gradient-to-b from-gray-800/70 to-transparent p-6 px-10 backdrop-blur-md">
         <Link href="/blog">
           <h1 className="text-xl">Inkwell Insights - Blog</h1>
         </Link>
