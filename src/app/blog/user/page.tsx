@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
+import { Accordion, AccordionItem } from '@nextui-org/react';
 import axios from 'axios';
 
 import InputField from '../../components/ui/Input';
@@ -188,121 +189,143 @@ export default function Profile() {
   return (
     <>
       <Toaster />
-      <h1 className="mb-10 p-4 text-2xl">Your User Profile</h1>
-      <h2>Edit user data</h2>
-      <form
-        className="flex flex-col items-center justify-center gap-6"
-        onSubmit={onUsernameChange}
+      <h1 className="mb-10 p-4 text-2xl">Edit your account info</h1>
+      <Accordion
+        variant="light"
+        className="w-2/5 lg:w-1/4"
+        itemClasses={{ title: 'text-white' }}
       >
-        <label className="flex flex-col" htmlFor="username">
-          Username:
-          <InputField
-            id="username"
-            type="text"
-            min={3}
-            max={32}
-            value={user.username}
-            placeholder="Your new username"
-            onChange={handleOnChangeUsername}
-            required={true}
-          />
-        </label>
-        <button
-          className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-          type="submit"
-          disabled={buttonDisabled}
+        <AccordionItem
+          key="username"
+          aria-label="Username"
+          title="Username"
+          className="text-white opacity-100"
         >
-          Edit
-        </button>
-      </form>
-      <form
-        className="flex flex-col items-center justify-center gap-6"
-        onSubmit={onEmailChange}
-      >
-        <label className="flex flex-col" htmlFor="email">
-          Email:
-          <InputField
-            id="email"
-            type="text"
-            min={4}
-            max={254}
-            value={user.email}
-            placeholder="Your new email"
-            onChange={handleOnChangeEmail}
-            required={true}
-          />
-        </label>
-        <button
-          className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-          type="submit"
-          disabled={buttonDisabled}
+          <form
+            className="flex flex-col items-center justify-center gap-6"
+            onSubmit={onUsernameChange}
+          >
+            <label className="flex flex-col" htmlFor="username">
+              Username:
+              <InputField
+                id="username"
+                type="text"
+                min={3}
+                max={32}
+                value={user.username}
+                placeholder="Your new username"
+                onChange={handleOnChangeUsername}
+                required={true}
+              />
+            </label>
+            <button
+              className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Edit
+            </button>
+          </form>
+        </AccordionItem>
+        <AccordionItem key="email" aria-label="Edit email" title="Edit email">
+          <form
+            className="flex flex-col items-center justify-center gap-6"
+            onSubmit={onEmailChange}
+          >
+            <label className="flex flex-col" htmlFor="email">
+              Email:
+              <InputField
+                id="email"
+                type="text"
+                min={4}
+                max={254}
+                value={user.email}
+                placeholder="Your new email"
+                onChange={handleOnChangeEmail}
+                required={true}
+              />
+            </label>
+            <button
+              className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Edit
+            </button>
+          </form>
+        </AccordionItem>
+        <AccordionItem key="bio" aria-label="Edit bio" title="Edit bio">
+          <form
+            className="flex flex-col items-center justify-center gap-6"
+            onSubmit={onBioChange}
+          >
+            <label className="flex flex-col" htmlFor="bio">
+              Bio:
+              <textarea
+                className="h-40 w-52 resize-none rounded-md p-2 text-sm text-gray-800 focus:outline-none"
+                id="bio"
+                name="bio"
+                minLength={1}
+                maxLength={320}
+                value={user.bio}
+                placeholder="Your new bio"
+                onChange={handleOnChangeBio}
+              />
+            </label>
+            <button
+              className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Edit
+            </button>
+          </form>
+        </AccordionItem>
+        <AccordionItem
+          key="password"
+          aria-label="Edit password"
+          title="Edit password"
         >
-          Edit
-        </button>
-      </form>
-      <form
-        className="flex flex-col items-center justify-center gap-6"
-        onSubmit={onBioChange}
-      >
-        <label className="flex flex-col" htmlFor="bio">
-          Bio:
-          <textarea
-            className="h-30 w-52 resize-none rounded-md p-2 text-sm text-gray-800 focus:outline-none"
-            id="bio"
-            name="bio"
-            minLength={1}
-            maxLength={320}
-            value={user.bio}
-            placeholder="Your new bio"
-            onChange={handleOnChangeBio}
-          />
-        </label>
-        <button
-          className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-          type="submit"
-          disabled={buttonDisabled}
-        >
-          Edit
-        </button>
-      </form>
-      <form
-        className="flex flex-col items-center justify-center gap-6"
-        onSubmit={onPasswordChange}
-      >
-        <label className="flex flex-col" htmlFor="password">
-          Password:
-          <InputField
-            id="password"
-            type="password"
-            min={6}
-            max={256}
-            value={password.newPassword}
-            placeholder="Your new password"
-            onChange={handleOnChangePassword}
-            required={true}
-          />
-        </label>
-        <label className="flex flex-col" htmlFor="confirmPassword">
-          Confirm password:
-          <InputField
-            id="confirmPassword"
-            type="password"
-            min={6}
-            max={256}
-            value={password.confirmPassword}
-            placeholder="Confirm your new password"
-            onChange={handleOnChangeConfirmPassword}
-            required={true}
-          />
-        </label>
-        <button
-          className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-          type="submit"
-          disabled={buttonDisabled}
-        >
-          Edit
-        </button>
-      </form>
+          <form
+            className="flex flex-col items-center justify-center gap-6"
+            onSubmit={onPasswordChange}
+          >
+            <label className="flex flex-col" htmlFor="password">
+              Password:
+              <InputField
+                id="password"
+                type="password"
+                min={6}
+                max={256}
+                value={password.newPassword}
+                placeholder="Your new password"
+                onChange={handleOnChangePassword}
+                required={true}
+              />
+            </label>
+            <label className="flex flex-col" htmlFor="confirmPassword">
+              Confirm password:
+              <InputField
+                id="confirmPassword"
+                type="password"
+                min={6}
+                max={256}
+                value={password.confirmPassword}
+                placeholder="Confirm your new password"
+                onChange={handleOnChangeConfirmPassword}
+                required={true}
+              />
+            </label>
+            <button
+              className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Edit
+            </button>
+          </form>
+        </AccordionItem>
+      </Accordion>
     </>
   );
 }
