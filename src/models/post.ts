@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   isDraft: { type: Boolean },
   publishDate: { type: Date },
-  comments: [{ type: mongoose.Schema.Types.ObjectId, Ref: 'Comment' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
 const Post =

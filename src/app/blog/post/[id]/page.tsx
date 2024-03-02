@@ -42,9 +42,6 @@ export default function PostPage({ params }: Params) {
         const response = await axios.post('/api/posts/get', {
           postId: params.id,
         });
-        if (response.status !== 200) {
-          return setError(true);
-        }
         setPost((currentPost) => ({
           ...currentPost,
           title: response.data.post.title,
@@ -56,7 +53,14 @@ export default function PostPage({ params }: Params) {
         }));
         setError(false);
       } catch (error) {
-        setError(true);
+        if (axios.isAxiosError(error)) {
+          const message = error.response?.data.error;
+          console.log(message);
+          return setError(true);
+        } else if (error instanceof Error) {
+          console.log(error.message);
+          return setError(true);
+        }
       }
     }
     getPostDetails();
@@ -87,7 +91,7 @@ export default function PostPage({ params }: Params) {
           By
           <Link
             href={`/blog/user/${post.author}`}
-            className="text-cyan-600 transition-transform-colors hover:text-teal-800"
+            className="transition-transform-colors hover:text-teal-800"
           >
             {' '}
             {post.author}
