@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   ArrowLeftStartOnRectangleIcon,
   CogIcon,
@@ -99,65 +99,68 @@ export default function UserMenu({
   };
 
   return (
-    <nav className="ml-auto">
-      <Dropdown placement="bottom-end">
-        <DropdownTrigger>
-          <Avatar
-            as="button"
-            showFallback
-            className="transition-transform"
-            name={username}
-            src=""
-          />
-        </DropdownTrigger>
-        <DropdownMenu
-          aria-label="Profile Actions"
-          className="text-slate-900"
-          disabledKeys={['preview']}
-        >
-          <DropdownItem
-            key="preview"
-            textValue="Signed in"
-            className="opacity-100"
+    <>
+      <Toaster />
+      <nav className="ml-auto">
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              as="button"
+              showFallback
+              className="transition-transform"
+              name={username}
+              src=""
+            />
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label="Profile Actions"
+            className="text-slate-900"
+            disabledKeys={['preview']}
           >
-            <p className="font-semibold">Signed in as {username}</p>
-          </DropdownItem>
-          {role === 'admin' ? (
-            <DropdownSection aria-label="Posts" showDivider>
-              <DropdownItem key="new" onClick={handleNewPostClick}>
+            <DropdownItem
+              key="preview"
+              textValue="Signed in"
+              className="opacity-100"
+            >
+              <p className="font-semibold">Signed in as {username}</p>
+            </DropdownItem>
+            {role === 'admin' ? (
+              <DropdownSection aria-label="Posts" showDivider>
+                <DropdownItem key="new" onClick={handleNewPostClick}>
+                  <div className="flex items-center">
+                    <PencilSquareIcon className="mr-1 h-6 w-6" />
+                    <p>New Post</p>
+                  </div>
+                </DropdownItem>
+              </DropdownSection>
+            ) : (
+              <></>
+            )}
+            <DropdownSection aria-label="Manage Account" showDivider>
+              <DropdownItem key="profile" onClick={handleMyAccountClick}>
                 <div className="flex items-center">
-                  <PencilSquareIcon className="mr-1 h-6 w-6" />
-                  <p>New Post</p>
+                  <UserCircleIcon className="mr-1 h-6 w-6" />
+                  <p>Profile</p>
+                </div>
+              </DropdownItem>
+              <DropdownItem key="account" onClick={handleProfileClick}>
+                <div className="flex items-center">
+                  <CogIcon className="mr-1 h-6 w-6" />
+                  <p>My Account</p>
                 </div>
               </DropdownItem>
             </DropdownSection>
-          ) : (
-            <></>
-          )}
-          <DropdownSection aria-label="Manage Account" showDivider>
-            <DropdownItem key="profile" onClick={handleMyAccountClick}>
-              <div className="flex items-center">
-                <UserCircleIcon className="mr-1 h-6 w-6" />
-                <p>Profile</p>
-              </div>
-            </DropdownItem>
-            <DropdownItem key="account" onClick={handleProfileClick}>
-              <div className="flex items-center">
-                <CogIcon className="mr-1 h-6 w-6" />
-                <p>My Account</p>
-              </div>
-            </DropdownItem>
-          </DropdownSection>
-          <DropdownSection aria-label="Danger Zone">
-            <DropdownItem key="logout" color="danger" onClick={onLogout}>
-              <div className="flex items-center">
-                <ArrowLeftStartOnRectangleIcon className="mr-1 h-6 w-6" />
-                <p>Log Out</p>
-              </div>
-            </DropdownItem>
-          </DropdownSection>
-        </DropdownMenu>
-      </Dropdown>
-    </nav>
+            <DropdownSection aria-label="Danger Zone">
+              <DropdownItem key="logout" color="danger" onClick={onLogout}>
+                <div className="flex items-center">
+                  <ArrowLeftStartOnRectangleIcon className="mr-1 h-6 w-6" />
+                  <p>Log Out</p>
+                </div>
+              </DropdownItem>
+            </DropdownSection>
+          </DropdownMenu>
+        </Dropdown>
+      </nav>
+    </>
   );
 }

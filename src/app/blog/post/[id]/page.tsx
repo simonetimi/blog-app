@@ -24,6 +24,7 @@ interface Params {
 }
 
 export default function PostPage({ params }: Params) {
+  const [isSession, setIsSession] = useState(false);
   const [post, setPost] = useState({
     id: params.id,
     title: '',
@@ -31,7 +32,14 @@ export default function PostPage({ params }: Params) {
     publishDate: new Date(),
     author: '',
     isDraft: false,
-    comments: [],
+    comments: [
+      {
+        author: { _id: '', username: '' },
+        content: '',
+        publishDate: new Date(),
+        _id: '',
+      },
+    ],
   });
   const [error, setError] = useState(false);
 
@@ -51,6 +59,7 @@ export default function PostPage({ params }: Params) {
           isDraft: response.data.post.isDraft,
           comments: response.data.post.comments,
         }));
+        setIsSession(response.data.isSession);
         setError(false);
       } catch (error) {
         return setError(true);
@@ -58,6 +67,10 @@ export default function PostPage({ params }: Params) {
     }
     getPostDetails();
   }, [params.id]);
+
+  useEffect(() => {
+    console.log(post); // This will log the updated state after re-renders
+  }, [post]);
 
   if (error) {
     return (
@@ -100,7 +113,13 @@ export default function PostPage({ params }: Params) {
             title="Add Comment"
             className="text-white opacity-100"
           >
-            <SendComment postId={params.id} />
+            {isSession ? (
+              <SendComment postId={params.id} />
+            ) : (
+              <p className="text-center">
+                You must be be logged in to comment the post.
+              </p>
+            )}
           </AccordionItem>
           <AccordionItem
             key="showComments"
@@ -108,13 +127,45 @@ export default function PostPage({ params }: Params) {
             title="Show Comments"
             className="text-white opacity-100"
           >
-            {post.comments.length < 1
-              ? 'No comments yet? Be the trailblazer!'
-              : 'WRITE CODE TO RENDER COMMENTS'}
+            {isSession ? (
+              post.comments.length < 1 ? (
+                <p className="text-center">
+                  No comments yet? Be the trailblazer!
+                </p>
+              ) : (
+                <section className="flex flex-col gap-4">
+                  {post.comments.map((comment) => (
+                    <Card
+                      className="bg-back border border-gray-700 text-white"
+                      key={comment.publishDate.toString()}
+                    >
+                      <CardHeader>
+                        <Link
+                          className="transition-transform-colors hover:text-teal-800"
+                          href={`/blog/user/${comment.author.username}`}
+                        >
+                          {comment.author.username}
+                        </Link>
+                      </CardHeader>
+                      <CardBody>
+                        <p>{comment.content}</p>
+                      </CardBody>
+                      <Divider className="bg-gray-700" />
+                      <CardFooter>
+                        <p className="text-sm">
+                          {format(comment.publishDate, 'MMMM dd, yyyy')}
+                        </p>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </section>
+              )
+            ) : (
+              <p className="text-center">
+                You must be logged in to see the comments.
+              </p>
+            )}
           </AccordionItem>
-          {
-            // Add here field to post comment if COOKIE session exists. otherwise nothing
-          }
         </Accordion>
       </CardFooter>
     </Card>
