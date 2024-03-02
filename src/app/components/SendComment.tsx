@@ -28,6 +28,8 @@ export default function SendComment({ postId }: { postId: string }) {
           toast.dismiss();
           setButtonDisabled(false);
           setComment('');
+          // window.location will reload the page without caching like router.push would
+          window.location.href = `/blog/post/${postId}`;
         }, 1500);
       }
     } catch (error) {
