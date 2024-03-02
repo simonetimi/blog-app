@@ -42,6 +42,10 @@ export default function PostPage({ params }: Params) {
       },
     ],
   });
+  const [user, setUser] = useState({
+    username: '',
+    role: '',
+  });
   const [error, setError] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -62,6 +66,11 @@ export default function PostPage({ params }: Params) {
           comments: response.data.post.comments,
         }));
         setIsSession(response.data.isSession);
+        setUser((currentUser) => ({
+          ...currentUser,
+          username: response.data.username,
+          role: response.data.role,
+        }));
         setError(false);
       } catch (error) {
         return setError(true);
@@ -71,6 +80,9 @@ export default function PostPage({ params }: Params) {
   }, [params.id]);
 
   // functions to control edit and delete post
+  const handleOnPostDelete = () => {
+    // logic
+  };
 
   // functions to control delete comment
 
@@ -106,21 +118,21 @@ export default function PostPage({ params }: Params) {
           </Link>
         </p>
       </section>
-      {isSession ? (
+      {user.role === 'admin' ? (
         <section className="flex justify-end gap-2">
           <button
-            className="flex h-6 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-white hover:text-black active:translate-y-1"
+            className="w-22 flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-white hover:text-black active:translate-y-1"
             type="button"
             disabled={buttonDisabled}
           >
-            <PencilIcon className="h-10 w-10 items-center pr-2" /> Edit
+            <PencilIcon className="h-7 w-7 items-center pr-2" /> Edit
           </button>
           <button
-            className="mb-2 mr-2 flex h-6 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
+            className="w-22 mb-2 mr-2 flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
             type="button"
             disabled={buttonDisabled}
           >
-            <TrashIcon className="h-10 w-10 items-center pr-2" /> Edit
+            <TrashIcon className="h-7 w-7 items-center pr-2" /> Delete
           </button>
         </section>
       ) : (
@@ -172,11 +184,24 @@ export default function PostPage({ params }: Params) {
                       <CardBody>
                         <p>{comment.content}</p>
                       </CardBody>
-                      <Divider className="bg-gray-700" />
+                      <Divider className="flex bg-gray-700" />
                       <CardFooter>
                         <p className="text-sm">
                           {format(comment.publishDate, 'MMMM dd, yyyy')}
                         </p>
+                        {user.role === 'admin' ||
+                        user.username === comment.author.username ? (
+                          <button
+                            className="w-22 ml-auto flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
+                            type="button"
+                            disabled={buttonDisabled}
+                          >
+                            <TrashIcon className="h-7 w-7 items-center pr-2" />{' '}
+                            Delete
+                          </button>
+                        ) : (
+                          <></>
+                        )}
                       </CardFooter>
                     </Card>
                   ))}

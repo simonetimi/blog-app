@@ -31,25 +31,27 @@ export async function POST(request: NextRequest) {
       })
       .exec();
 
+    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
+    let additionalData = {};
+
+    if (session !== '') {
+      try {
+        const { payload } = await jwtVerify(session, secret);
+        additionalData = { user: payload.user, role: payload.role }; // Example of adding user data
+      } catch (error) {}
+    }
+
     const response = NextResponse.json({
       message: 'Post has been fetched',
       success: true,
       post: post,
       isSession: isSession,
+      ...additionalData,
     });
 
+    // if the user is anonymous but the post isn't a draft, allow the response
     if (session === '' && !post.isDraft) {
       return response;
-    }
-
-    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
-    const { payload } = await jwtVerify(session, secret);
-    // if the user isn't the post author and the post is a draft, return an error (only the author should be able to see the draft)
-    if (post.author !== payload.username && post.isDraft) {
-      return NextResponse.json(
-        { error: 'User is not authorized' },
-        { status: 403 },
-      );
     }
 
     return response;
