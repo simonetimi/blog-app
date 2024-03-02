@@ -8,7 +8,7 @@ import {
   numberRegex,
   specialCharRegex,
   uppercaseRegex,
-} from '@/app/lib/regex';
+} from '@/lib/regex';
 import { connect } from '@/db/db-config';
 import { sendEmail } from '@/helpers/mailer';
 import type { UserInt } from '@/models/user';
