@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
         path: 'comments',
         select: 'author content publishDate',
         model: Comment,
+        options: { sort: { publishDate: -1 } },
         populate: { path: 'author', select: 'username', model: User },
       })
       .exec();
