@@ -18,8 +18,15 @@ export async function middleware(request: NextRequest) {
   ];
   const isPublicPath = publicPaths.includes(path);
 
-  // anonymous (not logged) user should be redirected to login if trying to access app resources
+  const isBlog = path.startsWith('/blog/') && !path.startsWith('/blog/user/');
+
+  if (isBlog && !session) {
+    // if an anonymous user is trying to visit the blog, allow (unless it's a profile)
+    return;
+  }
+
   if (!isPublicPath && !session) {
+    // anonymous (not logged) user should be redirected to login if trying to access app resources
     return NextResponse.redirect(new URL('/auth/login', request.nextUrl));
   }
 
@@ -45,7 +52,7 @@ export async function middleware(request: NextRequest) {
       return response;
     }
 
-    // if logged user is accessing a private resource, update the session without redirecting
+    // if logged user is accessing a private resource, refresh the session without redirecting
     if (!isPublicPath) {
       const response = NextResponse.next();
 
