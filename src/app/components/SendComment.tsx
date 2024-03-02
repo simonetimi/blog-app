@@ -3,18 +3,19 @@
 import { useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 export default function SendComment({ postId }: { postId: string }) {
-  const router = useRouter();
   const [comment, setComment] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const onSendComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    toast.dismiss();
+    if (comment.length < 3) {
+      return toast.error('Comment must be at least 3 characters long');
+    }
     try {
       setButtonDisabled(true);
-      toast.dismiss();
       toast.loading('Sending comment...');
       const response = await axios.post('/api/comments/new', {
         comment: comment,
@@ -25,7 +26,8 @@ export default function SendComment({ postId }: { postId: string }) {
         toast.success('Your comment has been posted!');
         setTimeout(() => {
           toast.dismiss();
-          router.refresh();
+          setButtonDisabled(false);
+          setComment('');
         }, 1500);
       }
     } catch (error) {

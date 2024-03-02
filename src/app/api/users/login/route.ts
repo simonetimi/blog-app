@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       sameSite: 'strict',
       maxAge: 3600, // 1 hour
-      secure: true,
+      secure: false,
     });
     return response;
   } catch (error) {

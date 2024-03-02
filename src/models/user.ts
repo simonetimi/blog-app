@@ -8,6 +8,8 @@ export interface UserInt extends Document {
   isVerified: boolean;
   bio: string;
   role: 'user' | 'admin';
+  posts: [];
+  comments: [];
   isBanned: boolean;
   forgotPasswordToken?: string;
   forgotPasswordTokenExpiry?: Date;

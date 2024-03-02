@@ -16,6 +16,14 @@ const inputSchema = object({
 export async function POST(request: NextRequest) {
   try {
     const session = request.cookies.get('session')?.value || '';
+
+    if (session === '') {
+      return NextResponse.json(
+        { error: 'User not authorized' },
+        { status: 403 },
+      );
+    }
+
     const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
     const { payload } = await jwtVerify(session, secret);
     if (
@@ -29,17 +37,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await connect();
     const reqBody = await request.json();
 
     // validate and sanitize user data
     const { title, content, isDraft } = await inputSchema.validate(reqBody);
-
     // get user data from cookie
     const { id } = payload;
-
     // get date
     const now = new Date();
+
+    await connect();
 
     const post = new Post({
       title: title,

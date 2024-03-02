@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     const reqBody = await request.json();
 
     const { postId } = reqBody;
-
     // retrieve the post populating the author with the username and the comments with the required fields, populating their authors too with usernames
     const post = await Post.findOne({ _id: postId })
       .select('content title publishDate isDraft')
@@ -20,7 +19,6 @@ export async function POST(request: NextRequest) {
         populate: { path: 'author', select: 'username' },
       })
       .exec();
-
     const response = NextResponse.json({
       message: 'Post has been added!',
       success: true,

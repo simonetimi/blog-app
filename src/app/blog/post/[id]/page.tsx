@@ -103,7 +103,7 @@ export default function PostPage({ params }: Params) {
             title="Add Comment"
             className="text-white opacity-100"
           >
-            <SendComment postId="params.id" />
+            <SendComment postId={params.id} />
           </AccordionItem>
           <AccordionItem
             key="showComments"
