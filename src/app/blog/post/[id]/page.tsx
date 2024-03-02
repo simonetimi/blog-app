@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import {
   Accordion,
@@ -14,6 +15,7 @@ import {
 import axios from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import SendComment from '@/app/components/SendComment';
 import NotFound from '@/app/components/ui/NotFound';
@@ -25,6 +27,7 @@ interface Params {
 }
 
 export default function PostPage({ params }: Params) {
+  const router = useRouter();
   const [isSession, setIsSession] = useState(false);
   const [post, setPost] = useState({
     id: params.id,
@@ -81,10 +84,46 @@ export default function PostPage({ params }: Params) {
 
   // functions to control edit and delete post
   const handleOnPostDelete = () => {
+    try {
+    } catch (error) {}
+  };
+  const handleOnPostEdit = () => {
     // logic
   };
 
   // functions to control delete comment
+  const handleOnCommentDelete = async (commentId: string) => {
+    toast.dismiss();
+    setButtonDisabled(true);
+    toast.loading('Deleting comment...');
+    try {
+      const response = await axios.post('/api/comments/delete', {
+        postId: params.id,
+        commentId: commentId,
+      });
+      toast.dismiss();
+      if (response.status === 200) {
+        toast.success('Comment deleted!');
+        setTimeout(() => {
+          toast.dismiss();
+          location.reload();
+        }, 1000);
+      } else {
+        toast.error('An unexpected error occurred. Please try again.');
+      }
+      setButtonDisabled(false);
+    } catch (error) {
+      setButtonDisabled(false);
+      toast.dismiss();
+      if (axios.isAxiosError(error)) {
+        const message =
+          error.response?.data.error || 'An error occurred. Please try again.';
+        toast.error(message);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
 
   if (error) {
     return (
@@ -97,6 +136,7 @@ export default function PostPage({ params }: Params) {
 
   return (
     <Card className="z-1 w-3/6 border border-white bg-black text-white">
+      <Toaster />
       <CardHeader className="flex flex-col items-start">
         <h1 className="text-2xl">{post.title}</h1>
       </CardHeader>
@@ -171,7 +211,7 @@ export default function PostPage({ params }: Params) {
                   {post.comments.map((comment) => (
                     <Card
                       className="bg-back border border-gray-700 text-white"
-                      key={comment.publishDate.toString()}
+                      key={comment._id}
                     >
                       <CardHeader>
                         <Link
@@ -195,6 +235,7 @@ export default function PostPage({ params }: Params) {
                             className="w-22 ml-auto flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
                             type="button"
                             disabled={buttonDisabled}
+                            onClick={() => handleOnCommentDelete(comment._id)}
                           >
                             <TrashIcon className="h-7 w-7 items-center pr-2" />{' '}
                             Delete
