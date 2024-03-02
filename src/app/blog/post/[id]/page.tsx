@@ -14,6 +14,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
 
+import SendComment from '@/app/components/SendComment';
 import NotFound from '@/app/components/ui/NotFound';
 
 interface Params {
@@ -71,7 +72,7 @@ export default function PostPage({ params }: Params) {
   }
 
   return (
-    <Card className="w-3/6 border border-white bg-black text-white">
+    <Card className="z-1 w-3/6 border border-white bg-black text-white">
       <CardHeader className="flex flex-col items-start">
         <h1 className="text-2xl">{post.title}</h1>
       </CardHeader>
@@ -102,7 +103,7 @@ export default function PostPage({ params }: Params) {
             title="Add Comment"
             className="text-white opacity-100"
           >
-            HERE GOES THE FORM TO SEND COMMENT
+            <SendComment postId="params.id" />
           </AccordionItem>
           <AccordionItem
             key="showComments"

@@ -30,7 +30,7 @@ export default async function RootLayout({
 
   return (
     <>
-      <header className="sticky top-0 z-10 flex items-center border-b-1 border-gray-800 bg-gradient-to-b from-gray-800/70 to-transparent p-6 px-10 backdrop-blur-md">
+      <header className="sticky top-0 z-40 flex items-center border-b-1 border-gray-800 bg-gradient-to-b from-gray-800/70 to-transparent p-6 px-10 backdrop-blur-md">
         <Link href="/blog" className="flex gap-2">
           <NewspaperIcon className="h-10 w-10 items-center" />
           <h1 className="font-recursive text-3xl">Inkwell Insights</h1>
