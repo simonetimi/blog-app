@@ -52,13 +52,15 @@ export default function PostPage({ params }: Params) {
   const [error, setError] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  // fetch user bio from database
   useEffect(() => {
     async function getPostDetails() {
       try {
         const response = await axios.post('/api/posts/get', {
           postId: params.id,
         });
+        if (!response.data.post) {
+          return setError(true);
+        }
         setPost((currentPost) => ({
           ...currentPost,
           title: response.data.post.title,
@@ -164,8 +166,9 @@ export default function PostPage({ params }: Params) {
   return (
     <Card className="z-1 w-3/6 border border-white bg-black text-white">
       <Toaster />
-      <CardHeader className="flex flex-col items-start">
+      <CardHeader className="flex items-start">
         <h1 className="text-2xl">{post.title}</h1>
+        {post.isDraft ? <p className="ml-auto text-red-600">Draft</p> : <></>}
       </CardHeader>
       <CardBody>
         <p>{post.content}</p>
