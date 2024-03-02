@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import {
   Accordion,
   AccordionItem,
@@ -42,6 +43,7 @@ export default function PostPage({ params }: Params) {
     ],
   });
   const [error, setError] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   // fetch user bio from database
   useEffect(() => {
@@ -68,9 +70,9 @@ export default function PostPage({ params }: Params) {
     getPostDetails();
   }, [params.id]);
 
-  useEffect(() => {
-    console.log(post); // This will log the updated state after re-renders
-  }, [post]);
+  // functions to control edit and delete post
+
+  // functions to control delete comment
 
   if (error) {
     return (
@@ -97,13 +99,33 @@ export default function PostPage({ params }: Params) {
           By
           <Link
             href={`/blog/user/${post.author}`}
-            className="transition-transform-colors hover:text-teal-800"
+            className={`text-slate-500 transition-transform-colors hover:text-slate-300`}
           >
             {' '}
             {post.author}
           </Link>
         </p>
       </section>
+      {isSession ? (
+        <section className="flex justify-end gap-2">
+          <button
+            className="flex h-6 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-white hover:text-black active:translate-y-1"
+            type="button"
+            disabled={buttonDisabled}
+          >
+            <PencilIcon className="h-10 w-10 items-center pr-2" /> Edit
+          </button>
+          <button
+            className="mb-2 mr-2 flex h-6 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
+            type="button"
+            disabled={buttonDisabled}
+          >
+            <TrashIcon className="h-10 w-10 items-center pr-2" /> Edit
+          </button>
+        </section>
+      ) : (
+        <></>
+      )}
       <Divider className="bg-gray-700" />
       <CardFooter className="flex w-full">
         <Accordion className="w-full" itemClasses={{ title: 'text-white' }}>
@@ -141,7 +163,7 @@ export default function PostPage({ params }: Params) {
                     >
                       <CardHeader>
                         <Link
-                          className="transition-transform-colors hover:text-teal-800"
+                          className={`text-slate-500 transition-transform-colors hover:text-slate-300`}
                           href={`/blog/user/${comment.author.username}`}
                         >
                           {comment.author.username}
