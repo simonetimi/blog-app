@@ -53,14 +53,7 @@ export default function PostPage({ params }: Params) {
         }));
         setError(false);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const message = error.response?.data.error;
-          console.log(message);
-          return setError(true);
-        } else if (error instanceof Error) {
-          console.log(error.message);
-          return setError(true);
-        }
+        return setError(true);
       }
     }
     getPostDetails();
