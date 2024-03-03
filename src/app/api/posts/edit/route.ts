@@ -4,7 +4,6 @@ import { boolean, object, string } from 'yup';
 
 import { connect } from '@/db/db-config';
 import Post from '@/models/post';
-import User from '@/models/user';
 
 // edit validation schema
 const inputSchema = object({
