@@ -4,14 +4,14 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { object, string } from 'yup';
 
+import { connect } from '@/db/db-config';
+import { sendEmail } from '@/helpers/mailer';
 import {
   lowercaseRegex,
   numberRegex,
   specialCharRegex,
   uppercaseRegex,
 } from '@/lib/regex';
-import { connect } from '@/db/db-config';
-import { sendEmail } from '@/helpers/mailer';
 import User from '@/models/user';
 
 interface ReqBody {

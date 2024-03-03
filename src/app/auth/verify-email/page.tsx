@@ -45,6 +45,7 @@ export default function VerifyEmailPage() {
     if (token.length > 0) {
       verifyEmail();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
