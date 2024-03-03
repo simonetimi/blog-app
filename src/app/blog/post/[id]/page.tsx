@@ -117,7 +117,7 @@ export default function PostPage({ params }: Params) {
     }
   };
   const handleOnPostEdit = () => {
-    // logic
+    router.push(`/blog/post/edit/${params.id}`);
   };
 
   // functions to control delete comment
@@ -191,6 +191,7 @@ export default function PostPage({ params }: Params) {
       {user.role === 'admin' ? (
         <section className="flex justify-end gap-2">
           <button
+            onClick={handleOnPostEdit}
             className="w-22 flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-white hover:text-black active:translate-y-1"
             type="button"
             disabled={buttonDisabled}

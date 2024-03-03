@@ -6,7 +6,7 @@ import type { UserInt } from './user';
 export interface PostInt extends Document {
   title: string;
   content: string;
-  _author: UserInt['_id'];
+  author: UserInt['_id'];
   isDraft: boolean;
   publishDate: Date;
   comments: [''];

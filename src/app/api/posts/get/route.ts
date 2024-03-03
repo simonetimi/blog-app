@@ -17,7 +17,31 @@ export async function POST(request: NextRequest) {
     await connect();
     const reqBody = await request.json();
 
-    const { postId } = reqBody;
+    const { postId, isEdit } = reqBody;
+
+    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
+    let additionalData = {};
+
+    if (session !== '') {
+      try {
+        const { payload } = await jwtVerify(session, secret);
+        additionalData = { user: payload.user, role: payload.role }; // Example of adding user data
+      } catch (error) {}
+    }
+
+    // if it comes from edit page, fetch and send less data
+    if (isEdit) {
+      const post = await Post.findOne({ _id: postId })
+        .select('content title isDraft')
+        .exec();
+      const response = NextResponse.json({
+        message: 'Post has been fetched',
+        success: true,
+        post: post,
+      });
+      return response;
+    }
+
     // retrieve the post populating the author with the username and the comments with the required fields, populating their authors too with usernames
     const post = await Post.findOne({ _id: postId })
       .select('content title publishDate isDraft')
@@ -30,16 +54,6 @@ export async function POST(request: NextRequest) {
         populate: { path: 'author', select: 'username', model: User },
       })
       .exec();
-
-    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
-    let additionalData = {};
-
-    if (session !== '') {
-      try {
-        const { payload } = await jwtVerify(session, secret);
-        additionalData = { user: payload.user, role: payload.role }; // Example of adding user data
-      } catch (error) {}
-    }
 
     const response = NextResponse.json({
       message: 'Post has been fetched',
