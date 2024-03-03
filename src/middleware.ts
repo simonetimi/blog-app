@@ -8,25 +8,25 @@ export async function middleware(request: NextRequest) {
   const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
 
   // check if user is logged in or not (has token) and redirect to appropriate paths
-  const publicPaths = [
-    '/',
+  const authPaths = [
     '/auth/login',
     '/auth/signup',
     '/auth/verify-email',
     '/auth/password-reset',
     '/auth/request-password-reset',
   ];
-  const isPublicPath = publicPaths.includes(path);
+  const isAuthPath = authPaths.includes(path);
 
-  const isBlog = path.startsWith('/blog/') && !path.startsWith('/blog/user/');
+  const publicPaths = ['/', '/blog'];
+  const isBlog = publicPaths.includes(path) && !path.startsWith('/blog/user');
 
-  if (isBlog && !session) {
-    // if an anonymous user is trying to visit the blog, allow (unless it's a profile)
-    return;
+  // redirect everyone to blog if they visit '/'
+  if (path === '/') {
+    return NextResponse.redirect(new URL('/blog', request.nextUrl));
   }
 
-  if (!isPublicPath && !session) {
-    // anonymous (not logged) user should be redirected to login if trying to access app resources
+  // anonymous user should be redirected to login if trying to access app resources
+  if (!isAuthPath && !isBlog && !session) {
     return NextResponse.redirect(new URL('/auth/login', request.nextUrl));
   }
 
@@ -47,13 +47,13 @@ export async function middleware(request: NextRequest) {
       .sign(secret);
 
     // if logged user is accessing a public resource, redirect to the main app resource
-    if (isPublicPath) {
+    if (isAuthPath) {
       const response = NextResponse.redirect(new URL('/blog', request.nextUrl));
       return response;
     }
 
     // if logged user is accessing a private resource, refresh the session without redirecting
-    if (!isPublicPath) {
+    if (!isAuthPath) {
       const response = NextResponse.next();
 
       // set the cookie using response
@@ -72,5 +72,8 @@ export async function middleware(request: NextRequest) {
 // it runs on every route except for api, next static, next image
 
 export const config = {
-  matcher: ['/', '/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/',
+    '/((?!api|_next/static|_next/image|favicon.ico|favicon.png).*)',
+  ],
 };
