@@ -46,7 +46,7 @@ export default function Home() {
     return (
       <main className="flex h-96 flex-col items-center justify-center gap-4">
         <h2 className="text-xl font-semibold">Exciting content coming soon!</h2>
-        <p>
+        <p className="w-2/3">
           We are currently in the process of crafting engaging and informative
           content that will spark curiosity, provide value, and entertain.
           Whether you&apos;re looking for inspiration, advice, or the latest

@@ -50,19 +50,18 @@ export async function sendEmail(
 
     // nodemailer transporter with options
     const transporter = nodemailer.createTransport({
-      host: 'sandbox.smtp.mailtrap.io',
-      port: 2525,
+      service: 'hotmail',
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
     });
     const mailOptions = {
-      from: 'x',
+      from: 'simonetimi.devserv@outlook.com',
       to: email,
       subject:
         emailType === 'verify' ? 'Verify your email' : 'Reset your password',
-      html: `<p>Click <a href="${process.env.DOMAIN}/${emailType === 'verify' ? 'verify-email' : 'password-reset'}?token=${hashedToken}">here</a> to ${emailType === 'verify' ? 'verify your email' : 'reset your password'}.</p>`,
+      html: `<p>Click <a href="${process.env.DOMAIN}/auth/${emailType === 'verify' ? 'verify-email' : 'password-reset'}?token=${hashedToken}">here</a> to ${emailType === 'verify' ? 'verify your email' : 'reset your password'}.</p>`,
     };
     const mailResponse = await transporter.sendMail(mailOptions);
     return mailResponse;
