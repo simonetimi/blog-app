@@ -100,7 +100,7 @@ export default function EditPost({ params }: Params) {
         onSubmit={onEditPost}
       >
         <div></div>
-        <label className="flex w-2/5 flex-col" htmlFor="email">
+        <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="title">
           Title:
           <InputField
             id="title"
@@ -114,7 +114,7 @@ export default function EditPost({ params }: Params) {
             width="w-full"
           />
         </label>
-        <label className="flex w-2/5 flex-col " htmlFor="post">
+        <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="post">
           Post:
           <textarea
             className="h-80 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"

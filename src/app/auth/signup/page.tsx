@@ -93,7 +93,7 @@ export default function SignupPage() {
         className="flex flex-col items-center justify-center gap-6"
         onSubmit={onSignUp}
       >
-        <label className="flex flex-col" htmlFor="username">
+        <label className="flex w-2/6 min-w-56 flex-col" htmlFor="username">
           Username:
           <InputField
             id="username"
@@ -104,9 +104,10 @@ export default function SignupPage() {
             placeholder="Your username"
             onChange={handleOnChangeUsername}
             required={true}
+            width="w-full"
           />
         </label>
-        <label className="flex flex-col" htmlFor="email">
+        <label className="flex w-1/6 min-w-56 flex-col" htmlFor="email">
           Email:
           <InputField
             id="email"
@@ -117,9 +118,10 @@ export default function SignupPage() {
             placeholder="Your email"
             onChange={handleOnChangeEmail}
             required={true}
+            width="w-full"
           />
         </label>
-        <label className="flex flex-col" htmlFor="password">
+        <label className="flex w-1/6 min-w-56 flex-col" htmlFor="password">
           Password:
           <InputField
             id="password"
@@ -130,9 +132,13 @@ export default function SignupPage() {
             placeholder="Your password"
             onChange={handleOnChangePassword}
             required={true}
+            width="w-full"
           />
         </label>
-        <label className="flex flex-col" htmlFor="confirmPassword">
+        <label
+          className="flex w-1/6 min-w-56 flex-col"
+          htmlFor="confirmPassword"
+        >
           Confirm password:
           <InputField
             id="confirmPassword"
@@ -143,6 +149,7 @@ export default function SignupPage() {
             placeholder="Your password"
             onChange={handleOnChangeConfirmPassword}
             required={true}
+            width="w-full"
           />
         </label>
         <button

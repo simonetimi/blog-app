@@ -104,7 +104,7 @@ export default function PasswordResetPage() {
           className="flex flex-col items-center justify-center gap-6"
           onSubmit={onChangePassword}
         >
-          <label className="flex flex-col" htmlFor="password">
+          <label className="flex w-1/6 min-w-56 flex-col" htmlFor="password">
             Password:
             <InputField
               id="password"
@@ -115,9 +115,13 @@ export default function PasswordResetPage() {
               placeholder="Your password"
               onChange={handleOnChangePassword}
               required={true}
+              width="w-full"
             />
           </label>
-          <label className="flex flex-col" htmlFor="confirmPassword">
+          <label
+            className="flex w-1/6 min-w-56 flex-col"
+            htmlFor="confirmPassword"
+          >
             Confirm password:
             <InputField
               id="confirmPassword"
@@ -128,6 +132,7 @@ export default function PasswordResetPage() {
               placeholder="Your password"
               onChange={handleOnChangeConfirmPassword}
               required={true}
+              width="w-full"
             />
           </label>
           <button

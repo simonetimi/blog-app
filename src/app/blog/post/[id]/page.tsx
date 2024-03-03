@@ -164,7 +164,7 @@ export default function PostPage({ params }: Params) {
   }
 
   return (
-    <Card className="z-1 w-3/6 border border-white bg-black text-white">
+    <Card className="z-1 w-full border border-white bg-black text-white lg:w-4/6">
       <Toaster />
       <CardHeader className="flex items-start">
         <h1 className="text-2xl">{post.title}</h1>

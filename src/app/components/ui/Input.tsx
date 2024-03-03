@@ -19,11 +19,11 @@ export default function InputField({
   placeholder,
   onChange,
   required,
-  width = 'w-52',
+  width = 'w-5/6',
 }: InputField) {
   return (
     <input
-      className={`h-8 ${width} rounded-md border border-white bg-black p-2 text-sm focus:outline-none`}
+      className={`h-8 ${width} self-center rounded-md border border-white bg-black p-2 text-sm focus:outline-none`}
       id={id}
       type={type}
       min={min}

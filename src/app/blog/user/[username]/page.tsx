@@ -59,13 +59,7 @@ export default function UserProfile({ params }: Params) {
   return (
     <>
       <h1 className="mb-6 p-4 text-2xl">{params.username}&apos;s profile</h1>
-      <p>
-        {user.bio ? (
-          <p className="w-80 text-center">{user.bio}</p>
-        ) : (
-          'Loading...'
-        )}
-      </p>
+      <p className="lg:max-w-4/6 max-w-[500px] text-center">{user.bio}</p>
       <section className="flex w-screen flex-col items-center justify-center gap-2">
         {user.posts && user.posts.length > 0 && (
           <>
@@ -73,7 +67,7 @@ export default function UserProfile({ params }: Params) {
             {user.posts.map((post) => (
               <Card
                 key={post._id}
-                className="z-1 w-2/6 border border-white bg-black text-white"
+                className="z-1 w-5/6 border border-white bg-black text-white lg:w-2/5"
               >
                 <CardHeader className="flex items-start">
                   <h3 className="text-color text-lg transition-colors hover:text-slate-600">
@@ -95,7 +89,7 @@ export default function UserProfile({ params }: Params) {
             {user.comments.map((comment) => (
               <Card
                 key={comment._id}
-                className="z-1 w-2/6 border border-white bg-black text-white"
+                className="z-1 w-5/6 border border-white bg-black text-white lg:w-2/5"
               >
                 <CardHeader className="flex items-start">
                   <h3 className="text-base">{comment.content}</h3>

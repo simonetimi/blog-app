@@ -62,7 +62,7 @@ export default function Home() {
       {posts.map((post) => (
         <Card
           key={post._id}
-          className="z-1 w-3/6 border border-white bg-black text-white"
+          className="z-1 ml-2 mr-2 w-full border border-white bg-black text-white lg:w-4/6"
         >
           <CardHeader className="flex items-start">
             <h1 className="text-2xl">

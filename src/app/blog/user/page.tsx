@@ -192,7 +192,7 @@ export default function Profile() {
       <h1 className="mb-10 p-4 text-2xl">Edit your account info</h1>
       <Accordion
         variant="light"
-        className="w-2/5 lg:w-1/4"
+        className="w-4/6 max-w-[350px] lg:w-2/6"
         itemClasses={{ title: 'text-white' }}
       >
         <AccordionItem
@@ -205,8 +205,11 @@ export default function Profile() {
             className="flex flex-col items-center justify-center gap-6"
             onSubmit={onUsernameChange}
           >
-            <label className="flex flex-col" htmlFor="username">
-              Username:
+            <label
+              className="flex w-full flex-col"
+              aria-label="username"
+              htmlFor="username"
+            >
               <InputField
                 id="username"
                 type="text"
@@ -232,8 +235,11 @@ export default function Profile() {
             className="flex flex-col items-center justify-center gap-6"
             onSubmit={onEmailChange}
           >
-            <label className="flex flex-col" htmlFor="email">
-              Email:
+            <label
+              className="flex w-full flex-col"
+              aria-label="email"
+              htmlFor="email"
+            >
               <InputField
                 id="email"
                 type="text"
@@ -259,10 +265,13 @@ export default function Profile() {
             className="flex flex-col items-center justify-center gap-6"
             onSubmit={onBioChange}
           >
-            <label className="flex flex-col" htmlFor="bio">
-              Bio:
+            <label
+              className="flex w-full flex-col"
+              aria-label="bio"
+              htmlFor="bio"
+            >
               <textarea
-                className="h-40 w-52 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
+                className="h-40 w-4/5 resize-none self-center rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
                 id="bio"
                 name="bio"
                 minLength={1}
@@ -290,8 +299,11 @@ export default function Profile() {
             className="flex flex-col items-center justify-center gap-6"
             onSubmit={onPasswordChange}
           >
-            <label className="flex flex-col" htmlFor="password">
-              Password:
+            <label
+              className="flex w-full flex-col"
+              aria-label="password"
+              htmlFor="password"
+            >
               <InputField
                 id="password"
                 type="password"
@@ -303,8 +315,11 @@ export default function Profile() {
                 required={true}
               />
             </label>
-            <label className="flex flex-col" htmlFor="confirmPassword">
-              Confirm password:
+            <label
+              className="flex w-full flex-col"
+              aria-label="confirm password"
+              htmlFor="confirmPassword"
+            >
               <InputField
                 id="confirmPassword"
                 type="password"

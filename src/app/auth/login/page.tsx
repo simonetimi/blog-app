@@ -65,15 +65,14 @@ export default function LoginPage() {
   };
 
   return (
-    <main className=" flex h-screen flex-col items-center justify-center">
+    <main className="flex h-screen w-screen flex-col items-center justify-center">
       <Toaster />
       <h1 className="mb-10 p-4 text-2xl">Login Page</h1>
       <form
-        className="flex flex-col items-center justify-center gap-6"
+        className="flex w-screen flex-col items-center justify-center gap-6"
         onSubmit={onLogin}
       >
-        <div></div>
-        <label className="flex flex-col" htmlFor="email">
+        <label className="flex w-1/6 min-w-56 flex-col" htmlFor="email">
           Email:
           <InputField
             id="email"
@@ -84,9 +83,10 @@ export default function LoginPage() {
             placeholder="Your email"
             onChange={handleOnChangeEmail}
             required={true}
+            width="w-full"
           />
         </label>
-        <label className="flex flex-col" htmlFor="password">
+        <label className="flex w-1/6 min-w-56 flex-col" htmlFor="password">
           Password:
           <InputField
             id="password"
@@ -97,6 +97,7 @@ export default function LoginPage() {
             placeholder="Your password"
             onChange={handleOnChangePassword}
             required={true}
+            width="w-full"
           />
         </label>
         <button

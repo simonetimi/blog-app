@@ -59,10 +59,13 @@ export default function SendComment({ postId }: { postId: string }) {
         onSubmit={onSendComment}
         method="post"
       >
-        <label className="flex flex-col" htmlFor="comment">
-          Your comment:
+        <label
+          className="flex w-full flex-col"
+          htmlFor="comment"
+          aria-label="Comment"
+        >
           <textarea
-            className="h-40 w-96 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
+            className="h-40 w-4/5 resize-none self-center rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
             id="comment"
             name="comment"
             minLength={3}

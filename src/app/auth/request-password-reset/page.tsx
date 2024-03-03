@@ -61,7 +61,7 @@ export default function LoginPage() {
         onSubmit={onRequestPasswordReset}
       >
         <div></div>
-        <label className="flex flex-col" htmlFor="email">
+        <label className="flex w-1/6 min-w-56 flex-col" htmlFor="email">
           Email:
           <InputField
             id="email"
@@ -72,6 +72,7 @@ export default function LoginPage() {
             placeholder="Your email"
             onChange={handleOnChangeEmail}
             required={true}
+            width="w-full"
           />
         </label>
         <button
