@@ -1,6 +1,10 @@
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
+import {
+  passwordResetEmailTemplate,
+  verificationEmailTemplate,
+} from '@/lib/email-templates';
 import User from '@/models/user';
 
 export async function sendEmail(
@@ -48,6 +52,10 @@ export async function sendEmail(
       });
     }
 
+    // verification link
+    const verificationLink = `${process.env.DOMAIN}/auth/verify-email?token=${hashedToken}`;
+    const resetLink = `${process.env.DOMAIN}/auth/password-reset?token=${hashedToken}`;
+
     // nodemailer transporter with options
     const transporter = nodemailer.createTransport({
       service: 'hotmail',
@@ -57,11 +65,16 @@ export async function sendEmail(
       },
     });
     const mailOptions = {
-      from: 'simonetimi.devserv@outlook.com',
+      from: 'inkwell.insights@outlook.com',
       to: email,
       subject:
-        emailType === 'verify' ? 'Verify your email' : 'Reset your password',
-      html: `<p>Click <a href="${process.env.DOMAIN}/auth/${emailType === 'verify' ? 'verify-email' : 'password-reset'}?token=${hashedToken}">here</a> to ${emailType === 'verify' ? 'verify your email' : 'reset your password'}.</p>`,
+        emailType === 'verify'
+          ? 'Inkwell Insights Blog - Verify your email'
+          : 'Inkwell Insights Blog - Reset your password',
+      html:
+        emailType === 'verify'
+          ? verificationEmailTemplate(verificationLink)
+          : passwordResetEmailTemplate(resetLink),
     };
     const mailResponse = await transporter.sendMail(mailOptions);
     return mailResponse;
