@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
       .limit(pageSize)
       .skip(skip)
       .populate({ path: 'author', select: 'username', model: User })
+      .sort({ publishDate: -1 })
       .exec();
 
     const response = NextResponse.json({
