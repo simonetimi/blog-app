@@ -18,15 +18,19 @@ export async function middleware(request: NextRequest) {
   const isAuthPath = authPaths.includes(path);
 
   const publicPaths = ['/', '/blog'];
-  const isBlog = publicPaths.includes(path) && !path.startsWith('/blog/user');
+  const isBlog =
+    publicPaths.includes(path) && !path.startsWith('/blog/user/[username]');
 
   // redirect everyone to blog if they visit '/'
   if (path === '/') {
     return NextResponse.redirect(new URL('/blog', request.nextUrl));
   }
 
+  // Check if path is a dynamic blog post path
+  const isDynamicBlogPost = /^\/blog\/post\/[^\/]+$/.test(path);
+
   // anonymous user should be redirected to login if trying to access app resources
-  if (!isAuthPath && !isBlog && !session) {
+  if (!isAuthPath && !isBlog && !session && !isDynamicBlogPost) {
     return NextResponse.redirect(new URL('/auth/login', request.nextUrl));
   }
 
