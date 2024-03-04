@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import { Checkbox } from '@nextui-org/react';
+import { Checkbox, CircularProgress } from '@nextui-org/react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
@@ -16,6 +16,7 @@ interface Params {
 
 export default function EditPost({ params }: Params) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const [post, setPost] = useState({
     title: '',
     content: '',
@@ -37,7 +38,7 @@ export default function EditPost({ params }: Params) {
     setPost({ ...post, isDraft: event.target.checked });
   };
 
-  // api call to create post
+  // api call to edit post
   const onEditPost = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     toast.dismiss();
@@ -84,6 +85,7 @@ export default function EditPost({ params }: Params) {
           content: response.data.post.content,
           isDraft: response.data.post.isDraft,
         }));
+        setIsLoading(false);
       } catch (error) {
         return router.push(`/blog/post/${params.id}`);
       }
@@ -94,55 +96,61 @@ export default function EditPost({ params }: Params) {
   return (
     <>
       <Toaster />
-      <h1 className="p-2 text-2xl">Edit Post</h1>
-      <form
-        className="flex w-screen flex-col items-center justify-center gap-6"
-        onSubmit={onEditPost}
-      >
-        <div></div>
-        <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="title">
-          Title:
-          <InputField
-            id="title"
-            type="title"
-            min={2}
-            max={60}
-            value={post.title}
-            placeholder="Title"
-            onChange={handleOnChangeTitle}
-            required={true}
-            width="w-full"
-          />
-        </label>
-        <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="post">
-          Post:
-          <textarea
-            className="h-80 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
-            id="post"
-            name="post"
-            minLength={4}
-            maxLength={5000}
-            value={post.content}
-            placeholder="Write new post"
-            onChange={handleOnChangeContent}
-          />
-        </label>
-        <label className="flex gap-2 text-white" htmlFor="draft">
-          Draft
-          <Checkbox
-            id="draft"
-            onChange={handleDraftCheck}
-            isSelected={post.isDraft}
-          ></Checkbox>
-        </label>
-        <button
-          className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
-          type="submit"
-          disabled={buttonDisabled}
-        >
-          Edit
-        </button>
-      </form>
+      {isLoading ? (
+        <CircularProgress aria-label="Loading..." />
+      ) : (
+        <>
+          <h1 className="p-2 text-2xl">Edit Post</h1>
+          <form
+            className="flex w-screen flex-col items-center justify-center gap-6"
+            onSubmit={onEditPost}
+          >
+            <div></div>
+            <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="title">
+              Title:
+              <InputField
+                id="title"
+                type="title"
+                min={2}
+                max={60}
+                value={post.title}
+                placeholder="Title"
+                onChange={handleOnChangeTitle}
+                required={true}
+                width="w-full"
+              />
+            </label>
+            <label className="flex w-4/5 flex-col lg:w-3/6" htmlFor="post">
+              Post:
+              <textarea
+                className="h-80 resize-none rounded-md border border-white bg-black p-2 text-sm text-white focus:outline-none"
+                id="post"
+                name="post"
+                minLength={4}
+                maxLength={5000}
+                value={post.content}
+                placeholder="Write new post"
+                onChange={handleOnChangeContent}
+              />
+            </label>
+            <label className="flex gap-2 text-white" htmlFor="draft">
+              Draft
+              <Checkbox
+                id="draft"
+                onChange={handleDraftCheck}
+                isSelected={post.isDraft}
+              ></Checkbox>
+            </label>
+            <button
+              className="flex h-9 w-20 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white hover:bg-white hover:text-black active:translate-y-1"
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Edit
+            </button>
+          </form>
+        </>
+      )}
     </>
   );
 }

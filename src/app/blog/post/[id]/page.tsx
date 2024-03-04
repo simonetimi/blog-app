@@ -10,6 +10,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CircularProgress,
   Divider,
 } from '@nextui-org/react';
 import axios from 'axios';
@@ -29,6 +30,7 @@ interface Params {
 export default function PostPage({ params }: Params) {
   const router = useRouter();
   const [isSession, setIsSession] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [post, setPost] = useState({
     id: params.id,
     title: '',
@@ -59,6 +61,7 @@ export default function PostPage({ params }: Params) {
           postId: params.id,
         });
         if (!response.data.post) {
+          setIsLoading(false);
           return setError(true);
         }
         setPost((currentPost) => ({
@@ -76,6 +79,7 @@ export default function PostPage({ params }: Params) {
           username: response.data.username,
           role: response.data.role,
         }));
+        setIsLoading(false);
         setError(false);
       } catch (error) {
         return setError(true);
@@ -163,7 +167,9 @@ export default function PostPage({ params }: Params) {
     );
   }
 
-  return (
+  return isLoading ? (
+    <CircularProgress className="mt-4" aria-label="Loading..." />
+  ) : (
     <Card className="z-1 w-full border border-white bg-black text-white lg:w-4/6">
       <Toaster />
       <CardHeader className="flex items-start">
