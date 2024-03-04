@@ -13,7 +13,6 @@ export default function Home() {
   const [posts, setPosts] = useState([
     {
       title: '',
-      author: { _id: '', username: '' },
       publishDate: new Date(),
       _id: '',
     },
@@ -22,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     async function getAllDrafts() {
       try {
-        const response = await axios.post('/api/posts/get-drafts', {
+        const response = await axios.post('/api/posts/drafts', {
           currentPage: currentPage,
         });
         if (response.data.posts.length < 1) {
