@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     if (session !== '') {
       try {
         const { payload } = await jwtVerify(session, secret);
-        additionalData = { user: payload.user, role: payload.role }; // Example of adding user data
+        additionalData = { username: payload.user, role: payload.role };
       } catch (error) {}
     }
 
