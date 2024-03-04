@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import {
   ArrowLeftStartOnRectangleIcon,
   CogIcon,
+  DocumentDuplicateIcon,
   PencilSquareIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -98,6 +99,11 @@ export default function UserMenu({
     router.push('/blog/post/new', { scroll: false });
   };
 
+  // handler for navigating to "Drafts"
+  const handleDraftsClick = () => {
+    router.push('/blog/post/drafts', { scroll: false });
+  };
+
   return (
     <>
       <Toaster />
@@ -130,6 +136,12 @@ export default function UserMenu({
                   <div className="flex items-center">
                     <PencilSquareIcon className="mr-1 h-6 w-6" />
                     <p>New Post</p>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="new" onClick={handleDraftsClick}>
+                  <div className="flex items-center">
+                    <DocumentDuplicateIcon className="mr-1 h-6 w-6" />
+                    <p>Drafts</p>
                   </div>
                 </DropdownItem>
               </DropdownSection>
