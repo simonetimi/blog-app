@@ -44,9 +44,14 @@ export default function Profile() {
         toast.dismiss();
         toast.success('Username updated!');
         setUser({ ...user, username: '' });
-        setButtonDisabled(false);
+        setTimeout(() => {
+          setButtonDisabled(false);
+          toast.dismiss();
+          location.reload();
+        }, 1000);
       }
     } catch (error) {
+      toast.dismiss();
       setButtonDisabled(false);
       if (axios.isAxiosError(error)) {
         const message =
@@ -71,9 +76,14 @@ export default function Profile() {
         toast.dismiss();
         toast.success('Check your inbox to verify your email!');
         setUser({ ...user, email: '' });
-        setButtonDisabled(false);
+        setTimeout(() => {
+          setButtonDisabled(false);
+          toast.dismiss();
+          location.reload();
+        }, 1000);
       }
     } catch (error) {
+      toast.dismiss();
       setButtonDisabled(false);
       if (axios.isAxiosError(error)) {
         const message =
@@ -98,9 +108,14 @@ export default function Profile() {
         toast.dismiss();
         toast.success('Bio updated!');
         setUser({ ...user, bio: '' });
-        setButtonDisabled(false);
+        setTimeout(() => {
+          setButtonDisabled(false);
+          toast.dismiss();
+          location.reload();
+        }, 1000);
       }
     } catch (error) {
+      toast.dismiss();
       if (axios.isAxiosError(error)) {
         setButtonDisabled(false);
         const message =
@@ -119,7 +134,8 @@ export default function Profile() {
     toast.loading('Updating password...');
     if (password.newPassword !== password.confirmPassword) {
       setButtonDisabled(false);
-      return toast.error("Passwords don't match");
+      toast.dismiss();
+      return toast.error("Passwords don't match!");
     }
     try {
       const response = await axios.put('/api/users/update', {
@@ -129,9 +145,14 @@ export default function Profile() {
         toast.dismiss();
         toast.success('Password updated!');
         setPassword({ newPassword: '', confirmPassword: '' });
-        setButtonDisabled(false);
+        setTimeout(() => {
+          setButtonDisabled(false);
+          toast.dismiss();
+          location.reload();
+        }, 1000);
       }
     } catch (error) {
+      toast.dismiss();
       if (axios.isAxiosError(error)) {
         setButtonDisabled(false);
         const message =

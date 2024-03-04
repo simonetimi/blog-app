@@ -55,9 +55,6 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // connect do db
-    await connect();
-
     const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
 
     // decode session
@@ -71,6 +68,16 @@ export async function PUT(request: NextRequest) {
     const reqBody = (await request.json()) as ReqBody;
     const { username, email, password, bio } =
       await inputSchema.validate(reqBody);
+
+    if (payload.username === 'Guest' && !bio) {
+      return NextResponse.json(
+        { error: "You don't have the permission!" },
+        { status: 403 },
+      );
+    }
+
+    // connect do db
+    await connect();
 
     // check if user exists
     const user = await User.findOne({ _id: idFromSession }).exec();
