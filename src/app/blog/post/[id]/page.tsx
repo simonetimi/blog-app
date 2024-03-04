@@ -76,7 +76,6 @@ export default function PostPage({ params }: Params) {
           username: response.data.username,
           role: response.data.role,
         }));
-        console.log(user);
         setError(false);
       } catch (error) {
         return setError(true);
@@ -189,7 +188,8 @@ export default function PostPage({ params }: Params) {
           </Link>
         </p>
       </section>
-      {user.role === 'admin' && user.username !== 'Guest' ? (
+      {(user.role === 'admin' && user.username !== 'Guest') ||
+      user.username === post.author ? (
         <section className="flex justify-end gap-2">
           <button
             onClick={handleOnPostEdit}
@@ -262,9 +262,8 @@ export default function PostPage({ params }: Params) {
                         <p className="text-sm">
                           {format(comment.publishDate, 'MMMM dd, yyyy')}
                         </p>
-                        {(user.role === 'admin' ||
-                          user.username === comment.author.username) &&
-                        user.username !== 'Guest' ? (
+                        {(user.role === 'admin' && user.username !== 'Guest') ||
+                        user.username === comment.author.username ? (
                           <button
                             className="w-22 ml-auto flex h-8 items-center justify-center rounded-md border border-white bg-black p-4 text-sm text-white transition-transform-colors hover:bg-red-600 active:translate-y-1"
                             type="button"
